@@ -25,6 +25,16 @@ Creamos en el fichero raíz del proyecto un archivo `dockerfile` el cual dividir
 > - **Seguridad:** La API no tiene permisos para romper el contenedor ni acceder a archivos del host.
 > - **Profesionalismo:** Uso estándares de la industria como el Multi-stage.
 
+### Optimización con .dockerignore
+He configurado un archivo `.dockerignore` para excluir archivos innecesarios durante el proceso de construcción de la imagen. Esto no solo acelera la subida del contexto a Docker, sino que evita conflictos con dependencias locales y protege archivos sensibles.
+
+> [!IMPORTANT]
+> **¿Qué archivos estamos ignorando?**
+> - Carpetas de dependencias locales (`node_modules`).
+> - Archivos de variables de entorno con credenciales reales (`.env`).
+> - Carpetas de compilación local (`dist`, `out`).
+> - Logs y archivos temporales del sistema.
+
 ### ¿Por qué esta imagen `24-bookworm-slim`?
 - **Compatibilidad:** Al basarse en Debian (`glibc`), evita errores comunes de compatibilidad que suelen ocurrir en Alpine con librerías nativas de Node.js (como `bcrypt`, `sharp` o `prisma`).
 - **Equilibrio de Peso:** La variante `slim` reduce drásticamente el tamaño de la imagen al eliminar herramientas de compilación innecesarias, manteniendo solo lo esencial para la ejecución.
