@@ -1,5 +1,12 @@
 # Takent API Rest
 
+> [!IMPORTANT]
+> **Justificación de las tecnologías seleccionadas**
+> Según el punto 1.2 de las especificaciones, "**el diseño será abierto de forma que el alumno tome sus propias decisiones**". Bajo esta premisa, he seleccionado **NestJS** y **Prisma** por los siguientes motivos:
+> - **Evolución del Ciclo:** Es una progresión profesional de **Node.js y JavaScript** (tecnologías vistas en el ciclo). El uso de **TypeScript** añade el tipado estático necesario para cumplir con el criterio de "**código bien estructurado y buenas prácticas**" (25% de la nota).
+> - **Integridad de Datos:** Como evolución de los ORM vistos (como Eloquent), **Prisma** es un ORM (tecnologia vista en el ciclo) que garantiza la "**persistencia de datos asegurando la integridad y consistencia**" exigida en el apartado 1.3.
+> - **Sostenibilidad:** Este stack permite aplicar los principios de "**optimización del consumo de CPU y memoria**", asegurando un software mantenible y duradero.
+
 ## Dependencias
 * **Framework:** NestJS (Node.js)
 * **ORM:** Prisma
