@@ -1,98 +1,60 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Takent API Rest
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Desarrollo técnico
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Configuración e instalación de NestJS y Prisma ORM
+La instalación de nestjs y prisma y su respectiva configuración no tiene ninguna complicación, simplemente es seguir los pasos que nos indica la documentación oficial de nestjs y prisma.
 
-## Description
+> **Documentación → https://www.prisma.io/docs/guides/nestjs**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Dockerización de la app
 
-## Project setup
+Esto se hace principalmente para eliminar el mítico ***“En mi máquina funciona”***, para mejorar la portabilidad y el incremento de la compatibilidad en otros entornos.
 
-```bash
-$ pnpm install
-```
+### El archivo Dockerfile
 
-## Compile and run the project
+Creamos en el fichero raíz del proyecto un archivo `dockerfile` el cual dividiremos por etapas una de compilación y otra de ejecución siguiendo el estándar Multi-Stage  ocasionando así una reducción significante del tamaño de nuestra imagen.
 
-```bash
-# development
-$ pnpm run start
+### ¿Que he conseguido solo con 3 sencillos pasos?
 
-# watch mode
-$ pnpm run start:dev
+He evitado crear un dockerfile genérico y de principiantes por uno que implementa principios de seguridad y profesionalismo:
 
-# production mode
-$ pnpm run start:prod
-```
+- **Seguridad:** La API no tiene permisos para romper el contenedor ni acceder a archivos del host.
+- **Profesionalismo:** Uso estándares de la industria como el Multi-stage.
 
-## Run tests
+### ¿Por qué esta imagen `24-bookworm-slim` ?
 
-```bash
-# unit tests
-$ pnpm run test
+- **Compatibilidad:** Al basarse en Debian (`glibc`), evita errores comunes de compatibilidad que suelen ocurrir en Alpine con librerías nativas de Node.js (como `bcrypt`, `sharp` o `prisma`).
+- **Equilibrio de Peso:** La variante `slim` reduce drásticamente el tamaño de la imagen al eliminar herramientas de compilación innecesarias, manteniendo solo lo esencial para la ejecución.
+- **Estabilidad y Seguridad:** Utiliza `bookworm` (Debian 12),con parches de seguridad actualizados para entornos de producción exigentes.
 
-# e2e tests
-$ pnpm run test:e2e
+> **Dockerfile → https://docs.docker.com/reference/dockerfile/**
+>
+> **Imágenes de Node → https://hub.docker.com/_/node**
 
-# test coverage
-$ pnpm run test:cov
-```
+### El archivo compose.yaml
 
-## Deployment
+Para facilitar la orquestación del contenedor y la configuración de variables de entorno, decidí utilizar **Docker Compose y crear** un archivo `compose.yaml` que permite:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- Construir la imagen de forma controlada.
+- Definir puertos de forma explícita.
+- Centralizar la configuración de variables de entorno mediante un archivo .env
+- Garantizar reinicio automático del servicio en caso de fallo.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Este enfoque simplifica tanto el desarrollo local como futuros despliegues en servidores.
+
+> **Docker compose → https://docs.docker.com/reference/compose-file/services/**
+> 
+
+Construimos la imagen y levantamos la app de la siguiente forma:
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+docker compose up --build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Estructura de carpetas y recursos iniciales de la API
+Generar los recursos básicos
 
-## Resources
+``` typescript
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```
