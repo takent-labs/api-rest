@@ -1,4 +1,16 @@
-# Takent API Rest
+<div align="center">
+<h1>Takent API Rest</h1>
+
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-000000?style=for-the-badge&logo=Prisma&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-blue?style=for-the-badge&logo=docker&logoColor=white)
+![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+
+</div>
 
 > [!IMPORTANT]
 > **Justificación de las tecnologías seleccionadas**
@@ -8,11 +20,29 @@
 > - **Sostenibilidad:** Este stack permite aplicar los principios de "**optimización del consumo de CPU y memoria**", asegurando un software mantenible y duradero.
 
 ## Dependencias
-* **Framework:** NestJS (Node.js)
-* **ORM:** Prisma
-* **Package Manager:** pnpm
-* **Runtime:** Docker
-* **Validation:** class-validator, class-transformer
+Estas son las librerías principales divididas por su función en el ecosistema:
+
+| Categoría | Paquete | Propósito | Comando de Instalación |
+| :--- | :--- | :--- | :--- |
+| **Framework** | `NestJS` | Núcleo del framework (Node.js) | `pnpm add -g @nestjs/cli` |
+| **Base de Datos** | `Prisma` | ORM para modelado y migraciones | `pnpm add -D prisma` |
+| **Cliente DB** | `@prisma/client` | Cliente Type-safe para consultas | `pnpm add @prisma/client` |
+| **Driver DB** | `pg` | Driver para PostgreSQL y adaptador | `pnpm add @prisma/adapter-pg pg` |
+| **Validación** | `class-validator` | Validación de DTOs con decoradores | `pnpm add class-validator` |
+| **Transformación**| `class-transformer`| Mapeo de objetos y tipos de datos | `pnpm add class-transformer` |
+| **Documentación** | `@nestjs/swagger` | Interfaz interactiva OpenAPI | `pnpm add @nestjs/swagger` |
+
+### Guía de instalación rápida
+
+Para instalar todas las dependencias necesarias de una sola vez:
+
+```bash
+# Dependencias de producción
+pnpm add @nestjs/swagger @prisma/client @prisma/adapter-pg pg class-validator class-transformer
+
+# Dependencias de desarrollo
+pnpm add -D prisma
+```
 
 ## Configuración e instalación de NestJS y Prisma ORM
 La instalación de nestjs y prisma y su respectiva configuración no tiene ninguna complicación, simplemente es seguir los pasos que nos indica la documentación oficial.
