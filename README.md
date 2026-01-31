@@ -12,6 +12,7 @@
 * **ORM:** Prisma
 * **Package Manager:** pnpm
 * **Runtime:** Docker
+* **Validation:** class-validator, class-transformer
 
 ## Configuración e instalación de NestJS y Prisma ORM
 La instalación de nestjs y prisma y su respectiva configuración no tiene ninguna complicación, simplemente es seguir los pasos que nos indica la documentación oficial.
@@ -77,7 +78,7 @@ Para generar cada uno de estos recursos (carpetas, controladores, servicios y en
 
 ```bash
 # Generar un recurso completo (Modulo, Service, Controller, Entity)
-pnpm exec nest g res <nombre-del-recurso> --no-spec
+pnpmx nest g res <nombre-del-recurso> --no-spec
 ```
 
 > [!NOTE] 
