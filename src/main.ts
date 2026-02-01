@@ -1,11 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix('api');
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  })
 
   app.useGlobalPipes(new ValidationPipe(
     {
@@ -26,24 +33,27 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, documentFactory);
 
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://takentl.com',
-  ];
+  // const allowedOrigins = [
+  //   'http://localhost:3000',
+  //   'https://takent.app',
+  // ];
 
-app.enableCors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('No permitido por CORS'));
-      }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    allowedHeaders: 'Content-Type, Accept, Authorization',
-  });
+  // app.enableCors({
+  //   origin: (origin, callback) => {
+  //     if (!origin || allowedOrigins.includes(origin)) {
+  //       callback(null, true);
+  //     } else {
+  //       callback(new Error('No permitido por CORS'));
+  //     }
+  //   },
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   credentials: true,
+  //   allowedHeaders: 'Content-Type, Accept, Authorization',
+  // });
 
-  await app.listen(process.env.PORT ?? 4321);
+  // Solo para desarrollo
+  app.enableCors();
+
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

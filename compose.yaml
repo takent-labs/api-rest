@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: nestjs_api
     ports:
-      - "4321:4321"
+      - "3001:3000"
     env_file:
       - .env
     environment:
