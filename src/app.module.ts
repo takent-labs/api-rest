@@ -5,10 +5,12 @@ import { ProjectsModule } from './projects/projects.module.js';
 import { UsersModule } from './users/users.module.js';
 import { PostsModule } from './posts/posts.module.js';
 import { ChatsModule } from './chats/chats.module.js';
+import { HashingModule } from './common/hashing/hashing.module.js';
+import { HashingService } from './common/hashing/hashing.service.js';
 
 @Module({
-  imports: [AuthModule, ProjectsModule, UsersModule, PostsModule, ChatsModule],
-  providers: [PrismaService],
+  imports: [AuthModule, ProjectsModule, UsersModule, PostsModule, ChatsModule, HashingModule],
+  providers: [PrismaService, HashingService],
 })
 
 export class AppModule { }

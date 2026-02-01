@@ -32,6 +32,7 @@ Estas son las librerías principales divididas por su función en el ecosistema:
 | **Transformación**| `class-transformer`| Mapeo de objetos y tipos de datos | `pnpm add class-transformer` |
 | **Entorno** | `dotenv` | Carga de variables de entorno | `pnpm add dotenv` |
 | **Documentación** | `@nestjs/swagger` | Interfaz interactiva OpenAPI | `pnpm add @nestjs/swagger` |
+| **Hashing** | `bcrypt` | Hashing de contraseñas | `pnpm add bcrypt` |
 
 ### Guía de instalación rápida
 
@@ -39,10 +40,10 @@ Para instalar todas las dependencias necesarias de una sola vez:
 
 ```bash
 # Dependencias de producción
-pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv
+pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv bcrypt
 
 # Dependencias de desarrollo
-pnpm add -D prisma
+pnpm add -D prisma @types/bcrypt
 ```
 
 ## Configuración e instalación de NestJS y Prisma ORM

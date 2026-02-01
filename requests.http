@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:3001/api/v1
+
+### Crear un usuario de prueba
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "admin_support",
+  "email": "soporte@takent.dev",
+  "password": "TemporalPassword2026!",
+  "firstName": "Elena",
+  "lastName": "García",
+  "imageUrl": "https://api.dicebear.com/7.x/pixel-art/svg?seed=Elena"
+}
