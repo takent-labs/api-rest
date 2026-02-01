@@ -27,9 +27,10 @@ Estas son las librerías principales divididas por su función en el ecosistema:
 | **Framework** | `NestJS` | Núcleo del framework (Node.js) | `pnpm add -g @nestjs/cli` |
 | **Base de Datos** | `Prisma` | ORM para modelado y migraciones | `pnpm add -D prisma` |
 | **Cliente DB** | `@prisma/client` | Cliente Type-safe para consultas | `pnpm add @prisma/client` |
-| **Driver DB** | `pg` | Driver para PostgreSQL y adaptador | `pnpm add @prisma/adapter-pg pg` |
+| **Driver Neon** | `@prisma/adapter-neon` | Driver para PostgreSQL y adaptador | `pnpm add @prisma/adapter-neon` |
 | **Validación** | `class-validator` | Validación de DTOs con decoradores | `pnpm add class-validator` |
 | **Transformación**| `class-transformer`| Mapeo de objetos y tipos de datos | `pnpm add class-transformer` |
+| **Entorno** | `dotenv` | Carga de variables de entorno | `pnpm add dotenv` |
 | **Documentación** | `@nestjs/swagger` | Interfaz interactiva OpenAPI | `pnpm add @nestjs/swagger` |
 
 ### Guía de instalación rápida
@@ -38,7 +39,7 @@ Para instalar todas las dependencias necesarias de una sola vez:
 
 ```bash
 # Dependencias de producción
-pnpm add @nestjs/swagger @prisma/client @prisma/adapter-pg pg class-validator class-transformer
+pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv
 
 # Dependencias de desarrollo
 pnpm add -D prisma
@@ -48,7 +49,8 @@ pnpm add -D prisma
 La instalación de nestjs y prisma y su respectiva configuración no tiene ninguna complicación, simplemente es seguir los pasos que nos indica la documentación oficial.
 
 > [!TIP]
-> **Documentación oficial:** [https://www.prisma.io/docs/guides/nestjs](https://www.prisma.io/docs/guides/nestjs)
+> **Documentación Prisma:** [https://www.prisma.io/docs/guides/nestjs](https://www.prisma.io/docs/guides/nestjs)
+> **Documentación Neon:** [https://neon.com/docs/guides/prisma#use-the-neon-serverless-driver-with-prisma](https://neon.com/docs/guides/prisma#use-the-neon-serverless-driver-with-prisma)
 
 ---
 ## Dockerización de la app
@@ -107,8 +109,8 @@ En esta fase he definido el esqueleto de la API basándome en el diagrama Entida
 Para generar cada uno de estos recursos (carpetas, controladores, servicios y entidades), he utilizado el CLI de NestJS con el siguiente comando:
 
 ```bash
-# Generar un recurso completo (Modulo, Service, Controller, Entity)
-pnpmx nest g res <nombre-del-recurso> --no-spec
+# Generar un recurso completo (Modulo, Service, Controller, Entity) sin los tests
+pnpx nest g res <nombre-del-recurso> --no-spec
 ```
 
 > [!NOTE] 
