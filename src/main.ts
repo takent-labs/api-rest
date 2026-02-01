@@ -26,6 +26,24 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, documentFactory);
 
-  await app.listen(process.env.PORT ?? 3000);
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://takentl.com',
+  ];
+
+app.enableCors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('No permitido por CORS'));
+      }
+    },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: 'Content-Type, Accept, Authorization',
+  });
+
+  await app.listen(process.env.PORT ?? 4321);
 }
 bootstrap();
