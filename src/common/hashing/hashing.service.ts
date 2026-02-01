@@ -10,7 +10,7 @@ export class HashingService {
         return await bcrypt.hash(data, salt);
     }
 
-    async compare(password: string, hash: string) {
-
+    async compare(data: string, hash: string): Promise<Boolean> {
+        return await bcrypt.compare(data, hash);
     }
 }
