@@ -33,6 +33,7 @@ Estas son las librerías principales divididas por su función en el ecosistema:
 | **Entorno** | `dotenv` | Carga de variables de entorno | `pnpm add dotenv` |
 | **Documentación** | `@nestjs/swagger` | Interfaz interactiva OpenAPI | `pnpm add @nestjs/swagger` |
 | **Hashing** | `bcrypt` | Hashing de contraseñas | `pnpm add bcrypt` |
+| **JWT** | `@nestjs/jwt` | Generación y verificación de tokens | `pnpm add @nestjs/jwt` |
 
 ### Guía de instalación rápida
 
@@ -40,7 +41,7 @@ Para instalar todas las dependencias necesarias de una sola vez:
 
 ```bash
 # Dependencias de producción
-pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv bcrypt
+pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv bcrypt @nestjs/jwt
 
 # Dependencias de desarrollo
 pnpm add -D prisma @types/bcrypt
