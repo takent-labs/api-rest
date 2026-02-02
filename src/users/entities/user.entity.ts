@@ -5,12 +5,12 @@ export class User {
     email: string;
     username: string;
     @Exclude()
-    password: string;
+    password?: string;
     firstName?: string | null;
     lastName?: string | null;
     imageUrl?: string | null;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 
     constructor(partial: Partial<User>) {
         Object.assign(this, partial);

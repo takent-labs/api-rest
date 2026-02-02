@@ -1,6 +1,7 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
-export class CreateUserDto {
+export class SignUpDto {
+
     @IsString()
     @IsNotEmpty()
     @MaxLength(50, { message: 'El nombre de usuario no puede exceder los 50 caracteres' })
@@ -27,9 +28,4 @@ export class CreateUserDto {
     @IsOptional()
     @MaxLength(50, { message: 'El apellido no puede exceder los 50 caracteres' })
     lastName?: string;
-
-    @IsString()
-    @IsUrl()
-    @IsOptional()
-    imageUrl?: string;
 }

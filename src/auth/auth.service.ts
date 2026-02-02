@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto.js';
-import { UpdateAuthDto } from './dto/update-auth.dto.js';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { UsersService } from '../users/users.service.js';
+import { SignInDto } from './dto/sign-in.dto.js';
+import { HashingService } from '../common/hashing/hashing.service.js';
+import { SignUpDto } from './dto/sign-up.dto.js';
+import { User } from 'src/users/entities/user.entity.js';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+
+  constructor(private usersService: UsersService, private readonly hashingService: HashingService) { }
+
+  async signIn(signInDto: SignInDto): Promise<User> {
+    const user = await this.usersService.findOneByEmail(signInDto.email);
+
+    if (!user) {
+      throw new UnauthorizedException("Email o contraseña incorrectos");
+    }
+
+    const isPasswordValid = await this.hashingService.compare(signInDto.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException("Email o contraseña incorrectos");
+    }
+
+    const { password, ...result } = user;
+
+    return result;
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async signUp(signUpDto: SignUpDto): Promise<User> {
+    const newUser = await this.usersService.create(signUpDto);
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    const { password, ...result} = newUser
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    return result;
   }
 }

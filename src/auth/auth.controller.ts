@@ -1,34 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
-import { CreateAuthDto } from './dto/create-auth.dto.js';
-import { UpdateAuthDto } from './dto/update-auth.dto.js';
+import { SignInDto } from './dto/sign-in.dto.js';
+import { SignUpDto } from './dto/sign-up.dto.js';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @HttpCode(HttpStatus.OK)
+  @Post('sign-in')
+  async signIn(@Body() signInDto: SignInDto) {
+    return await this.authService.signIn(signInDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @HttpCode(HttpStatus.CREATED)
+  @Post('sign-up')
+  async signUp(@Body() SignUpDto: SignUpDto) {
+    return await this.authService.signUp(SignUpDto);
   }
 }

@@ -29,3 +29,24 @@ Content-Type: application/json
 1
 ### eliminar un usuario por id
 DELETE {{baseUrl}}/users/aee1c7ae-e032-4f4d-98f8-4e2baa615831
+
+### iniciar sesión
+POST {{baseUrl}}/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "juan@takent.com",
+  "password": "SecurePassword2024!"
+}
+
+### registrar un usuario
+POST {{baseUrl}}/auth/sign-up
+Content-Type: application/json
+
+{
+  "username": "ana_dev",
+  "email": "ana@example.com",
+  "password": "Password123!",
+  "firstName": "Ana",
+  "lastName": "García"
+}

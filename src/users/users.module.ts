@@ -8,5 +8,6 @@ import { HashingModule } from '../common/hashing/hashing.module.js';
   imports: [HashingModule],
   controllers: [UsersController],
   providers: [UsersService, PrismaService],
+  exports: [UsersService]
 })
 export class UsersModule {}
