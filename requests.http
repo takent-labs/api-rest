@@ -30,15 +30,6 @@ Content-Type: application/json
 ### eliminar un usuario por id
 DELETE {{baseUrl}}/users/aee1c7ae-e032-4f4d-98f8-4e2baa615831
 
-### iniciar sesión
-POST {{baseUrl}}/auth/sign-in
-Content-Type: application/json
-
-{
-  "email": "juan@takent.com",
-  "password": "SecurePassword2024!"
-}
-
 ### registrar un usuario
 POST {{baseUrl}}/auth/sign-up
 Content-Type: application/json
@@ -50,3 +41,20 @@ Content-Type: application/json
   "firstName": "Ana",
   "lastName": "García"
 }
+
+### Iniciar sesión
+# @name login
+POST {{baseUrl}}/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "juan@takent.com",
+  "password": "SecurePassword2024!"
+}
+
+### Guardamos el token
+@access_token = {{login.response.body.access_token}}
+
+### Probar Ruta Protegida (Perfil)
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{access_token}}
