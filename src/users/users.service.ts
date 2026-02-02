@@ -9,26 +9,27 @@ export class UsersService {
 
   constructor(private readonly prisma: PrismaService, private readonly hashingService: HashingService) { }
 
-  private async validateUsername(username: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { username: username },
-      select: { username: true }
-    })
+  private async validateUsername(username: string, excludeUserId?: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        username,
+        NOT: excludeUserId ? { id: excludeUserId } : undefined
+      },
+      select: { id: true }
+    });
 
-    if (!user) return;
-
-    throw new BadRequestException('El usuario ya está en uso');
+    if (user) throw new BadRequestException('El usuario ya está en uso');
   }
 
-  private async validateEmail(email: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { email: email },
-      select: { email: true }
-    })
+  private async validateEmail(email: string, excludeUserId?: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: email,
+        NOT: excludeUserId ? { id: excludeUserId } : undefined
+      }
+    });
 
-    if (!user) return;
-
-    throw new BadRequestException('El correo ya está en uso');
+    if (user) throw new BadRequestException('El correo ya está en uso');
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -66,14 +67,14 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    await this.findOne(id);
+    const currentUser = await this.findOne(id);
 
-    if (updateUserDto.email) {
-      await this.validateEmail(updateUserDto.email);
+    if (updateUserDto.username && updateUserDto.username !== currentUser.username) {
+      await this.validateUsername(updateUserDto.username, id);
     }
 
-    if (updateUserDto.username) {
-      await this.validateUsername(updateUserDto.username);
+    if (updateUserDto.email && updateUserDto.email !== currentUser.email) {
+      await this.validateEmail(updateUserDto.email, id);
     }
 
     const dataToUpdate = { ...updateUserDto };

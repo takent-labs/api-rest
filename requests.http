@@ -5,10 +5,27 @@ POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-  "username": "admin_support",
-  "email": "soporte@takent.dev",
-  "password": "TemporalPassword2026!",
-  "firstName": "Elena",
-  "lastName": "García",
-  "imageUrl": "https://api.dicebear.com/7.x/pixel-art/svg?seed=Elena"
+  "username": "dev_tester",
+  "email": "tester@takent.dev",
+  "password": "SecurePassword2024!",
+  "firstName": "Carlos",
+  "lastName": "Rodríguez",
+  "imageUrl": "https://api.dicebear.com/7.x/pixel-art/svg?seed=Carlos"
 }
+
+### buscar un usuario por id
+GET {{baseUrl}}/users/aee1c7ae-e032-4f4d-98f8-4e2baa615831
+Accept: application/json
+
+### actualizar un usuario por id
+PATCH {{baseUrl}}/users/aee1c7ae-e032-4f4d-98f8-4e2baa615831
+Content-Type: application/json
+
+{
+  "username": "userjuan",
+  "email": "juan@takent.com",
+  "firstName": "Juan"
+}
+1
+### eliminar un usuario por id
+DELETE {{baseUrl}}/users/aee1c7ae-e032-4f4d-98f8-4e2baa615831
