@@ -105,8 +105,8 @@ Construimos la imagen y levantamos la app de la siguiente forma:
 docker compose up --build
 ```
 
-### Estructura basica de la App
-En esta fase he definido el esqueleto de la API basándome en el diagrama Entidad-Relación. He organizado la aplicación en módulos independientes para que el código sea limpio y fácil de escalar. Cada módulo agrupa su propia lógica, rutas y conexión a la base de datos.
+# Lógica de la app
+En esta fase he definido el esqueleto de la API basándome en el diagrama Entidad-Relación y en la arquitectura modular. He organizado la aplicación en módulos independientes para que el código sea limpio y fácil de escalar. Cada módulo agrupa su propia lógica, rutas y conexión a la base de datos.
 
 Para generar cada uno de estos recursos (carpetas, controladores, servicios y entidades), he utilizado el CLI de NestJS con el siguiente comando:
 
@@ -117,3 +117,24 @@ pnpx nest g res <nombre-del-recurso> --no-spec
 
 > [!NOTE] 
 > Se ha incluido el flag --no-spec para evitar la generación de archivos de test en esta etapa inicial para mantener el espacio de trabajo más limpio mientras se define la arquitectura de los datos.
+
+```bash
+src/
+├── users/                  
+│   ├── dto/                # Filtra qué datos permitimos que nos envíen.
+│   ├── entities/           # Cómo se guarda el usuario en la base de datos.
+│   ├── users.controller.ts # Recibe las peticiones y las reparte.
+│   ├── users.service.ts    # Aquí está la lógica de los usuarios (guardar, buscar, etc).
+│   └── users.module.ts     # Une todo lo anterior y permite exportarlo a otros módulos.
+│
+├── auth/                    
+│   ├── dto/                # Son los datos que pedimos para loguear 
+│   ├── auth.controller.ts  # Endpoints de login y registro.
+│   ├── auth.service.ts     # Crea las llaves (tokens) y comprueba claves.
+│   └── auth.module.ts      # Conecta la seguridad con los usuarios.
+│
+├── common/                  
+│   └── hashing/             # Logica compartida para encriptar las contraseñas.
+│
+└── main.ts                  
+```
