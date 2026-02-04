@@ -5,6 +5,7 @@ import { HashingService } from '../common/hashing/hashing.service.js';
 import { SignUpDto } from './dto/sign-up.dto.js';
 import { User } from 'src/users/entities/user.entity.js';
 import { JwtService } from '@nestjs/jwt';
+import { AuthResponseDto } from './dto/auth-response.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) { }
 
-  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
+  async signIn(signInDto: SignInDto): Promise<AuthResponseDto> {
     const user = await this.usersService.findOneByEmail(signInDto.email);
 
     if (!user) {
@@ -28,13 +29,30 @@ export class AuthService {
       throw new UnauthorizedException("Email o contraseña incorrectos");
     }
 
-    return this.generateToken(user);
+    const { access_token } = await this.generateToken(user);
+
+    return {
+      access_token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email
+      }
+    };
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<{ access_token: string }> {
-    const newUser = await this.usersService.create(signUpDto);
+  async signUp(signUpDto: SignUpDto): Promise<AuthResponseDto> {
+    const user = await this.usersService.create(signUpDto);
 
-    return this.generateToken(newUser);
+    const { access_token } = await this.generateToken(user)
+    return {
+      access_token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email
+      }
+    };
   }
 
   private async generateToken(user: User): Promise<{ access_token: string }> {

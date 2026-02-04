@@ -20,6 +20,7 @@ export class AuthController {
     return await this.authService.signUp(SignUpDto);
   }
 
+  //TODO mover a UsersController, esto solo era de prueba
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
