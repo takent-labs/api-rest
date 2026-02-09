@@ -35,11 +35,11 @@ POST {{baseUrl}}/auth/sign-up
 Content-Type: application/json
 
 {
-  "username": "ana_dev",
-  "email": "ana@example.com",
-  "password": "Password123!",
-  "firstName": "Ana",
-  "lastName": "García"
+  "username": "juan_takent",
+  "email": "juan@takent.com",
+  "password": "SecurePassword2024!",
+  "firstName": "Juan",
+  "lastName": "Rodríguez"
 }
 
 ### Iniciar sesión
@@ -53,8 +53,19 @@ Content-Type: application/json
 }
 
 ### Guardamos el token
-@access_token = {{login.response.body.access_token}}
+@access_token = {{login.response.body.accessToken}}
 
 ### Probar Ruta Protegida (Perfil)
-GET {{baseUrl}}/auth/profile
+GET {{baseUrl}}/users/data
 Authorization: Bearer {{access_token}}
+
+### Crear un post
+POST {{baseUrl}}/posts
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "title": "Mi primer post",
+  "content": "Contenido del post"
+}
+
