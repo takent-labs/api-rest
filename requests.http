@@ -69,3 +69,17 @@ Authorization: Bearer {{access_token}}
   "content": "Contenido del post"
 }
 
+### Actualizar un post
+PATCH {{baseUrl}}/posts/5d30a875-9d9c-4182-81cd-13c4db531c7b
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "title": "Mi primer post actualizado",
+  "content": "Contenido del post actualizado"
+}
+
+### Eliminar un post
+DELETE {{baseUrl}}/posts/5d30a875-9d9c-4182-81cd-13c4db531c7b
+Authorization: Bearer {{access_token}}
+
