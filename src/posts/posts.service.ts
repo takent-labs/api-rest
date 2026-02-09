@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto.js';
 import { UpdatePostDto } from './dto/update-post.dto.js';
 import { PrismaService } from '../prisma.service.js';
@@ -7,7 +7,7 @@ import { Post } from './entities/post.entity.js';
 @Injectable()
 export class PostsService {
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createPostDto: CreatePostDto, userId: string): Promise<Post> {
     return this.prisma.post.create({
@@ -18,23 +18,59 @@ export class PostsService {
     })
   }
 
-  findAll() {
-    return `This action returns all posts`;
+  async findAll(): Promise<Post[]> {
+    return this.prisma.post.findMany();
   }
 
-  findUserPosts(userId: string) {
-    return `This action returns all posts`;
+  async findOne(id: string): Promise<Post> {
+
+    const post = await this.prisma.post.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if (!post) throw new NotFoundException("El post no existe");
+
+    return post;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findUserPosts(userId: string): Promise<Post[]> {
+    return this.prisma.post.findMany({
+      where: {
+        userId
+      }
+    });
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: string, userId: string, updatePostDto: UpdatePostDto): Promise<Post> {
+
+    const post = await this.findOne(id)
+
+    if (post.userId !== userId) {
+      throw new UnauthorizedException("No tienes permiso para editar este post");
+    }
+
+    return this.prisma.post.update({
+      where: {
+        id
+      },
+      data: updatePostDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async remove(id: string, userId: string): Promise<Post> {
+
+    const post = await this.findOne(id)
+
+    if (post.userId !== userId) {
+      throw new UnauthorizedException("No tienes permiso para eliminar este post");
+    }
+
+    return this.prisma.post.delete({
+      where: {
+        id
+      }
+    })
   }
 }
