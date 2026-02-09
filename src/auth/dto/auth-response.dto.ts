@@ -7,6 +7,6 @@ export class UserPayloadDto {
 }
 
 export class AuthResponseDto {
-   access_token: string;
+   accessToken: string;
    user: UserPayloadDto;
 }

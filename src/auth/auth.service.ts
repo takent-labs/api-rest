@@ -29,10 +29,10 @@ export class AuthService {
       throw new UnauthorizedException("Email o contraseña incorrectos");
     }
 
-    const { access_token } = await this.generateToken(user);
+    const { accessToken } = await this.generateToken(user);
 
     return {
-      access_token,
+      accessToken,
       user: {
         id: user.id,
         username: user.username,
@@ -44,9 +44,9 @@ export class AuthService {
   async signUp(signUpDto: SignUpDto): Promise<AuthResponseDto> {
     const user = await this.usersService.create(signUpDto);
 
-    const { access_token } = await this.generateToken(user)
+    const { accessToken } = await this.generateToken(user)
     return {
-      access_token,
+      accessToken,
       user: {
         id: user.id,
         username: user.username,
@@ -55,7 +55,7 @@ export class AuthService {
     };
   }
 
-  private async generateToken(user: User): Promise<{ access_token: string }> {
+  private async generateToken(user: User): Promise<{ accessToken: string }> {
 
     const payload = {
       sub: user.id,
@@ -64,7 +64,7 @@ export class AuthService {
     }
 
     return {
-      access_token: await this.jwtService.signAsync(payload)
+      accessToken: await this.jwtService.signAsync(payload)
     };
   }
 }
