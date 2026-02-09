@@ -6,7 +6,7 @@ import { AuthGuard } from '../auth/guards/auth.guard.js';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(private readonly postsService: PostsService) { }
 
   @Post()
   @UseGuards(AuthGuard)
@@ -16,27 +16,26 @@ export class PostsController {
   }
 
   @Get()
-  findAll() {
-    return this.postsService.findAll();
+  async findAll() {
+    return await this.postsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postsService.findOne(+id);
-  }
-
-  @Get('user/:userId') 
-  findUserPosts(@Param('userId') userId: string){
-    return this.postsService.findUserPosts(userId);
+  @Get('user/:userId')
+  async findUserPosts(@Param('userId') userId: string) {
+    return await this.postsService.findUserPosts(userId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, updatePostDto);
+  @UseGuards(AuthGuard)
+  async update(@Request() req, @Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+    const userId = req.user.sub;
+    return await this.postsService.update(id, userId, updatePostDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postsService.remove(+id);
+  @UseGuards(AuthGuard)
+  async remove(@Request() req, @Param('id') id: string) {
+    const userId = req.user.sub;
+    return await this.postsService.remove(id, userId);
   }
 }
