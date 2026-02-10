@@ -11,25 +11,53 @@ export class PostsService {
   constructor(private readonly prisma: PrismaService) { }
 
   async create(createPostDto: CreatePostDto, userId: string): Promise<Post> {
-    return this.prisma.post.create({
+    const { hashtags, ...data } = createPostDto;
+
+    return await this.prisma.post.create({
       data: {
-        ...createPostDto,
-        userId
+        ...data,
+        userId,
+        postHashtags: {
+          create: hashtags?.map(hashtag => ({
+            hashtag: {
+              connectOrCreate: {
+                where: { name: hashtag.replace('#', '').toLowerCase() },
+                create: { name: hashtag.replace('#', '').toLowerCase() }
+              }
+            }
+          }))
+        }
       }
     })
   }
 
   async findAll(): Promise<PostResponseDto[]> {
-    return this.prisma.post.findMany({
+    const postsArray = await this.prisma.post.findMany({
       include: {
         user: {
           select: {
+            id: true,
             username: true,
             imageUrl: true
+          }
+        },
+        postHashtags: {
+          include: {
+            hashtag: true
           }
         }
       }
     });
+
+    const posts = postsArray.map(post => {
+      const { postHashtags, ...data } = post;
+      return {
+        ...data,
+        hashtags: postHashtags.map(ph => ph.hashtag.name)
+      };
+    })
+
+    return posts;
   }
 
   async findOne(id: string): Promise<PostResponseDto> {
@@ -41,8 +69,14 @@ export class PostsService {
       include: {
         user: {
           select: {
+            id: true,
             username: true,
             imageUrl: true
+          }
+        },
+        postHashtags: {
+          include: {
+            hashtag: true
           }
         }
       }
@@ -50,23 +84,44 @@ export class PostsService {
 
     if (!post) throw new NotFoundException("El post no existe");
 
-    return post;
+    const { postHashtags, ...data } = post;
+
+    return {
+      ...data,
+      hashtags: postHashtags.map(ph => ph.hashtag.name)
+    };
   }
 
   async findUserPosts(userId: string): Promise<PostResponseDto[]> {
-    return this.prisma.post.findMany({
+    const postsArray = await this.prisma.post.findMany({
       where: {
         userId
       },
       include: {
         user: {
           select: {
+            id: true,
             username: true,
             imageUrl: true
+          }
+        },
+        postHashtags: {
+          include: {
+            hashtag: true
           }
         }
       }
     });
+
+    const posts = postsArray.map(post => {
+      const { postHashtags, ...data } = post;
+      return {
+        ...data,
+        hashtags: postHashtags.map(ph => ph.hashtag.name)
+      };
+    })
+
+    return posts;
   }
 
   async update(id: string, userId: string, updatePostDto: UpdatePostDto): Promise<Post> {

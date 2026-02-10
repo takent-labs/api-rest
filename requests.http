@@ -65,11 +65,12 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "content": "Contenido del post"
+  "content": "La era del 'Cloud-Only' está llegando a su fin. 🏠 He migrado toda mi infraestructura crítica de SaaS comerciales a instancias auto-alojadas usando Docker y Coolify. Tener el control total de mis datos y de mi base de datos Postgres no solo me ahorra cientos de dólares al mes, sino que me da una privacidad que ninguna Big Tech puede garantizar. El self-hosting ya no es un hobby, es una necesidad profesional en 2026. 🔐",
+  "hashtags": ["SelfHosting", "OpenSource", "Docker", "Privacy", "DevOps"]
 }
 
 ### Actualizar un post
-PATCH {{baseUrl}}/posts/c7dbe571-155d-4049-8ad3-c15f19562a97
+PATCH {{baseUrl}}/posts/b892a226-ade8-4519-a245-36b754b64572
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
