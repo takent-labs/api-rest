@@ -7,6 +7,16 @@ datasource db {
   provider = "postgresql"
 }
 
+model Follow {
+  followerId  String   @db.Uuid
+  follower    User     @relation("UserFollows", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String   @db.Uuid
+  following   User     @relation("UserFollowedBy", fields: [followingId], references: [id], onDelete: Cascade)
+  followedAt  DateTime @default(now())
+
+  @@id([followerId, followingId])
+}
+
 model User {
   id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email         String         @unique
@@ -19,16 +29,23 @@ model User {
   updatedAt     DateTime       @updatedAt
   configuration Configuration?
   post          Post[]
+  likes         Like[]
+  comments      Comment[]
+  following     Follow[]       @relation("UserFollows")
+  followers     Follow[]       @relation("UserFollowedBy")
 }
 
 model Post {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId    String   @db.Uuid
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content   String
-  imageUrl  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String        @db.Uuid
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content      String
+  imageUrl     String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  likes        Like[]
+  comments     Comment[]
+  postHashtags PostHashtag[]
 }
 
 model Configuration {
@@ -38,6 +55,42 @@ model Configuration {
   plan      Plan
   onboarded Boolean
   updatedAt DateTime @updatedAt
+}
+
+model Like {
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String   @db.Uuid
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String   @db.Uuid
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model Hashtag {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String        @unique
+  createdAt    DateTime      @default(now())
+  postHashtags PostHashtag[]
+}
+
+model PostHashtag {
+  postId    String  @db.Uuid
+  post      Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  hashtagId String  @db.Uuid
+  hashtag   Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, hashtagId])
 }
 
 enum Plan {
