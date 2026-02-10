@@ -1,12 +1,14 @@
-export class Post {
+export class PostResponseDto {
+    user: AuthorDto;
     id: string;
     userId: string;
     content: string;
     imageUrl?: string | null;
     createdAt: Date;
     updatedAt: Date;
+}
 
-    constructor(partial: Partial<Post>) {
-        Object.assign(this, partial);
-    }
+class AuthorDto {
+    username: string;
+    imageUrl: string | null;
 }

@@ -3,6 +3,7 @@ import { CreatePostDto } from './dto/create-post.dto.js';
 import { UpdatePostDto } from './dto/update-post.dto.js';
 import { PrismaService } from '../prisma.service.js';
 import { Post } from './entities/post.entity.js';
+import { PostResponseDto } from './dto/post-response.dto.js';
 
 @Injectable()
 export class PostsService {
@@ -18,15 +19,32 @@ export class PostsService {
     })
   }
 
-  async findAll(): Promise<Post[]> {
-    return this.prisma.post.findMany();
+  async findAll(): Promise<PostResponseDto[]> {
+    return this.prisma.post.findMany({
+      include: {
+        user: {
+          select: {
+            username: true,
+            imageUrl: true
+          }
+        }
+      }
+    });
   }
 
-  async findOne(id: string): Promise<Post> {
+  async findOne(id: string): Promise<PostResponseDto> {
 
     const post = await this.prisma.post.findUnique({
       where: {
         id
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            imageUrl: true
+          }
+        }
       }
     })
 
@@ -35,10 +53,18 @@ export class PostsService {
     return post;
   }
 
-  async findUserPosts(userId: string): Promise<Post[]> {
+  async findUserPosts(userId: string): Promise<PostResponseDto[]> {
     return this.prisma.post.findMany({
       where: {
         userId
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            imageUrl: true
+          }
+        }
       }
     });
   }

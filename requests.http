@@ -35,10 +35,10 @@ POST {{baseUrl}}/auth/sign-up
 Content-Type: application/json
 
 {
-  "username": "juan_takent",
-  "email": "juan@takent.com",
-  "password": "SecurePassword2024!",
-  "firstName": "Juan",
+  "username": "oskirove",
+  "email": "oscar@takent.com",
+  "password": "12345678",
+  "firstName": "Óscar",
   "lastName": "Rodríguez"
 }
 
@@ -48,8 +48,8 @@ POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "juan@takent.com",
-  "password": "SecurePassword2024!"
+  "email": "oscar@takent.com",
+  "password": "12345678"
 }
 
 ### Guardamos el token
@@ -65,21 +65,28 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "title": "Mi primer post",
   "content": "Contenido del post"
 }
 
 ### Actualizar un post
-PATCH {{baseUrl}}/posts/5d30a875-9d9c-4182-81cd-13c4db531c7b
+PATCH {{baseUrl}}/posts/c7dbe571-155d-4049-8ad3-c15f19562a97
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "title": "Mi primer post actualizado",
-  "content": "Contenido del post actualizado"
+  "content": "¡El desarrollo de Agentes de IA acaba de cambiar para siempre! 🚀 Acabo de implementar el Model Context Protocol (MCP) en mi flujo de trabajo de Next.js y la capacidad de Claude y GPT-4o para interactuar directamente con mis bases de datos locales y herramientas de terminal es de otro mundo. Se acabó el copiar y pegar logs. ¿Alguien más está integrando agentes autónomos en su pipeline de CI/CD? El futuro no es escribir código, es dirigir a quienes lo escriben. #AI #NextJS #MCP #WebDev"
 }
 
 ### Eliminar un post
-DELETE {{baseUrl}}/posts/5d30a875-9d9c-4182-81cd-13c4db531c7b
+DELETE {{baseUrl}}/posts/2656fc07-ca39-458a-956c-11cbdabb418a
 Authorization: Bearer {{access_token}}
+
+### Obtener todos los posts
+GET {{baseUrl}}/posts
+Authorization: Bearer {{access_token}}
+
+### Obtener los posts de un usuario
+GET {{baseUrl}}/posts/user/210d0500-c371-4196-9333-b35802a28163
+Authorization: Bearer {{access_token}}
+
 
