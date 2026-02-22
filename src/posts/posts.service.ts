@@ -4,11 +4,31 @@ import { UpdatePostDto } from './dto/update-post.dto.js';
 import { PrismaService } from '../prisma.service.js';
 import { Post } from './entities/post.entity.js';
 import { PostResponseDto } from './dto/post-response.dto.js';
+import { R2Service } from '../common/r2/r2.service.js';
+import { GeneratePutUrlDto } from '../common/r2/dto/generate-put-url.dto.js';
+import { GetUploadUrlResponseDto } from './dto/get-upload-url-response.dto.js';
 
 @Injectable()
 export class PostsService {
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService, private readonly r2Service: R2Service) { }
+
+  async getUploadUrl(dto: GeneratePutUrlDto, userId: string): Promise<GetUploadUrlResponseDto> {
+
+    const fileExtension = dto.fileName.split('.').pop();
+    const uniqueId = crypto.randomUUID();
+    const fileName = `posts/users/${userId}/${uniqueId}.${fileExtension}`;
+
+    const uploadUrl = await this.r2Service.generatePutUrl({
+      ...dto,
+      fileName
+    });
+
+    return {
+      uploadUrl,
+      fileName
+    }
+  }
 
   async create(createPostDto: CreatePostDto, userId: string): Promise<Post> {
     const { hashtags, ...data } = createPostDto;

@@ -90,4 +90,22 @@ Authorization: Bearer {{access_token}}
 GET {{baseUrl}}/posts/user/210d0500-c371-4196-9333-b35802a28163
 Authorization: Bearer {{access_token}}
 
+### Obtener URL de subida para una imagen
+# @name getUploadUrl
+POST {{baseUrl}}/posts/upload-url
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
+{
+  "fileName": "test.jpg",
+  "contentType": "image/jpeg"
+}
+
+### Guardamos la URL de subida
+@uploadUrl = {{getUploadUrl.response.body.uploadUrl}}
+
+### Subir la imagen real a Cloudflare R2
+PUT {{uploadUrl}}
+Content-Type: image/jpeg
+
+< test.jpg

@@ -34,6 +34,7 @@ Estas son las librerías principales divididas por su función en el ecosistema:
 | **Documentación** | `@nestjs/swagger` | Interfaz interactiva OpenAPI | `pnpm add @nestjs/swagger` |
 | **Hashing** | `bcrypt` | Hashing de contraseñas | `pnpm add bcrypt` |
 | **JWT** | `@nestjs/jwt` | Generación y verificación de tokens | `pnpm add @nestjs/jwt` |
+| **S3** | `@aws-sdk/client-s3` | Cliente S3 para almacenamiento de imágenes | `pnpm add @aws-sdk/client-s3 @aws-sdk/s3-request-presigner` |
 
 ### Guía de instalación rápida
 
@@ -41,7 +42,7 @@ Para instalar todas las dependencias necesarias de una sola vez:
 
 ```bash
 # Dependencias de producción
-pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv bcrypt @nestjs/jwt
+pnpm add @nestjs/swagger @prisma/client class-validator class-transformer @prisma/adapter-neon dotenv bcrypt @nestjs/jwt @aws-sdk/client-s3 @aws-sdk/s3-request-presigner 
 
 # Dependencias de desarrollo
 pnpm add -D prisma @types/bcrypt
@@ -138,3 +139,12 @@ src/
 │
 └── main.ts                  
 ```
+
+### Implementación de S3 para el almacenamiento de imágenes
+He decidido implementar S3 para el almacenamiento de imágenes, ya que es un servicio escalable y seguro. Además, permite el almacenamiento de imágenes en diferentes formatos y tamaños, lo que facilita la gestión de las imágenes.
+
+Inicio:
+https://developers.cloudflare.com/r2/get-started/s3/
+
+Generación de URL's pre-firmadas:
+https://developers.cloudflare.com/r2/api/s3/presigned-urls/

@@ -3,6 +3,8 @@ import { PostsService } from './posts.service.js';
 import { CreatePostDto } from './dto/create-post.dto.js';
 import { UpdatePostDto } from './dto/update-post.dto.js';
 import { AuthGuard } from '../auth/guards/auth.guard.js';
+import { GeneratePutUrlDto } from '../common/r2/dto/generate-put-url.dto.js';
+import { GetUploadUrlResponseDto } from './dto/get-upload-url-response.dto.js';
 
 @Controller('posts')
 export class PostsController {
@@ -23,6 +25,13 @@ export class PostsController {
   @Get('user/:userId')
   async findUserPosts(@Param('userId') userId: string) {
     return await this.postsService.findUserPosts(userId);
+  }
+
+  @Post('upload-url')
+  @UseGuards(AuthGuard)
+  async getUploadUrl(@Request() req, @Body() dto: GeneratePutUrlDto): Promise<GetUploadUrlResponseDto> {
+    const userId = req.user.sub;
+    return await this.postsService.getUploadUrl(dto, userId);
   }
 
   @Patch(':id')
