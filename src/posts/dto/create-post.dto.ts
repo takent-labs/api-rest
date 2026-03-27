@@ -12,7 +12,7 @@ export class CreatePostDto {
     @IsString({ each: true })
     hashtags?: string[];
 
-    @IsUrl({}, { message: 'La URL de la imagen no es válida' })
+    @IsString()
     @IsOptional()
     @MaxLength(1000, { message: 'La URL de la imagen no puede exceder los 1000 caracteres' })
     imageUrl?: string;

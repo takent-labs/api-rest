@@ -148,3 +148,7 @@ https://developers.cloudflare.com/r2/get-started/s3/
 
 Generación de URL's pre-firmadas:
 https://developers.cloudflare.com/r2/api/s3/presigned-urls/
+
+### Implementación de rate limiting
+
+https://docs.nestjs.com/security/rate-limiting#multiple-throttler-definitions

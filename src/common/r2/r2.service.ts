@@ -21,6 +21,8 @@ export class R2Service {
                 accessKeyId: R2_ACCESS_KEY_ID,
                 secretAccessKey: R2_SECRET_ACCESS_KEY,
             },
+            requestChecksumCalculation: "WHEN_REQUIRED",
+            responseChecksumValidation: "WHEN_REQUIRED",
         });
     }
 
@@ -37,9 +39,12 @@ export class R2Service {
         const command = new PutObjectCommand({
             Bucket: process.env.R2_BUCKET_NAME,
             Key: dto.fileName,
-            ContentType: dto.contentType,
+            ChecksumAlgorithm: undefined
         });
 
-        return await getSignedUrl(this.s3Client, command, { expiresIn: 300 });
+        return await getSignedUrl(this.s3Client, command, {
+            expiresIn: 300,
+            unsignableHeaders: new Set(['content-type', 'host', 'x-amz-content-sha256'])
+        });
     }
 }

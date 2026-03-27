@@ -36,7 +36,7 @@ Content-Type: application/json
 
 {
   "username": "oskirove",
-  "email": "oscar@takent.com",
+  "email": "oscar@oscar.com",
   "password": "12345678",
   "firstName": "Óscar",
   "lastName": "Rodríguez"
@@ -48,7 +48,7 @@ POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "oscar@takent.com",
+  "email": "oscar@oscar.com",
   "password": "12345678"
 }
 
