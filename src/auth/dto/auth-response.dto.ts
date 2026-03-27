@@ -1,12 +1,23 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserPayloadDto {
-   id: string;
-   username: string;
-   email: string;
+  @ApiProperty({ description: 'ID único del usuario', example: 'cuid_abc123' })
+  id: string;
+
+  @ApiProperty({ description: 'Nombre de usuario', example: 'johndoe' })
+  username: string;
+
+  @ApiProperty({ description: 'Correo electrónico', example: 'usuario@ejemplo.com' })
+  email: string;
 }
 
 export class AuthResponseDto {
-   accessToken: string;
-   user: UserPayloadDto;
+  @ApiProperty({
+    description: 'Token JWT de acceso para autenticar futuras peticiones',
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+  })
+  accessToken: string;
+
+  @ApiProperty({ description: 'Datos básicos del usuario autenticado', type: UserPayloadDto })
+  user: UserPayloadDto;
 }

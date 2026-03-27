@@ -24,9 +24,22 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Takent')
-    .setDescription('Takent API-REST')
+    .setDescription('La API REST de Takent permite gestionar usuarios, publicaciones, proyectos y chats de la plataforma.')
     .setVersion('1.0')
-    .addTag('Takent')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'Introduce tu JWT token de acceso',
+      },
+      'access-token',
+    )
+    .addTag('Auth', 'Autenticación y registro de usuarios')
+    .addTag('Users', 'Gestión de perfiles de usuario')
+    .addTag('Posts', 'Gestión de publicaciones')
+    .addTag('Projects', 'Gestión de proyectos')
+    .addTag('Chats', 'Gestión de chats')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
